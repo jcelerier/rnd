@@ -6,7 +6,9 @@
 
 #include <cstdint>
 #include <random>
+#if __has_include(<rnd_export.h>)
 #include <rnd_export.h>
+#endif
 
 namespace rnd
 {
@@ -169,21 +171,23 @@ private:
 
 /**
  * Warning: these functions use a deterministic seed, don't use them for anything
- * requiring proper randomness. 
+ * requiring proper randomness.
  */
+#if __has_include(<rnd_export.h>)
 RND_EXPORT
 pcg& fast_random_device() noexcept;
 
 inline int rand(int min, int max) noexcept {
-	return std::uniform_int_distribution<>{min, max}(fast_random_device());
+  return std::uniform_int_distribution<>{min, max}(fast_random_device());
 }
 
 inline float rand(float min, float max) noexcept {
-	return std::uniform_real_distribution<>{min, max}(fast_random_device());
+  return std::uniform_real_distribution<>{min, max}(fast_random_device());
 }
 
 inline double rand(double min, double max) noexcept {
-	return std::uniform_real_distribution<>{min, max}(fast_random_device());
+  return std::uniform_real_distribution<>{min, max}(fast_random_device());
 }
+#endif
 
 }
