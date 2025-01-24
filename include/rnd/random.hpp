@@ -175,7 +175,13 @@ private:
 #if __has_include(<rnd_export.h>)
 RND_EXPORT
 pcg& fast_random_device() noexcept;
-
+#else
+static inline pcg& fast_random_device()
+{
+  static pcg rr;
+  return rr;
+}
+#endif
 inline int rand(int min, int max) noexcept {
   return std::uniform_int_distribution<>{min, max}(fast_random_device());
 }
@@ -187,6 +193,4 @@ inline float rand(float min, float max) noexcept {
 inline double rand(double min, double max) noexcept {
   return std::uniform_real_distribution<>{min, max}(fast_random_device());
 }
-#endif
-
 }
